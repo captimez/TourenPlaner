@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ort</title>
+    <link th:href="@{/style.css}" th:rel="stylesheet" />
+</head>
+<body>
+    <div name="header" class="header" th:replace="~{fragments/kopffuss :: kopf}"></div>
+    <div class="info" th:replace="~{fragments/info :: info}"></div>
+    <h3 th:text="#{ortsliste.titel}"></h3>
+
+    <table class="tour-tabelle" th:if="${ortliste != null}">
+        <thead>
+            <tr>
+                <th >ID</th>
+                <th th:text="#{ort.name}">Name</th>
+                <th th:text="#{ort.geolaenge}">Geolaenge</th>
+                <th th:text="#{ort.geobreite}">Geobreite</th>
+                <th th:text="#{ort.link.karte}">Karte</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ort : ${ortliste}" th:object="${ort}">
+                <td th:text="*{id}"></td>
+                <td th:text="*{name}"></td>
+                <td th:text="*{geolaenge}"></td>
+                <td th:text="*{geobreite}"></td>
+                <td><a th:href="|https://www.openstreetmap.org/#map=14/${ort.geobreite}/${ort.geolaenge}|" target="_blank">Karte</a></td>
+                <td>
+                    <form th:action="@{/admin/ort/__${ort.id}__}" method="get" style="display:inline;">
+                        <button th:text="#{ortsliste.eintrag.bearbeiten}" class="button-bearbeiten" type="submit"></button>
+                    </form>
+                    <form th:action="@{/admin/ort/__${ort.id}__/del}" method="get" style="display:inline;">
+                        <button th:text="#{ortsliste.eintrag.loeschen}" class="button-loeschen" type="submit"></button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <form class="form-benutzer" th:action="@{/admin/ort/0}" method="get">
+        <button type="submit" th:text="#{ortsliste.neu}">Neuer Ort</button>
+    </form>
+    <div name="footer" class="footer" th:replace="~{fragments/kopffuss :: fuss}"></div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tour</title>
+    <link th:href="@{/style.css}" th:rel="stylesheet" />
+</head>
+<body>
+    <div name="header" class="header" th:replace="~{fragments/kopffuss :: kopf}"></div>
+    <div class="info" th:replace="~{fragments/info :: info}"></div>
+    <h3 th:text="#{tourliste.titel}"></h3>
+
+    <table class="tour-tabelle" th:if="${tourliste != null}">
+        <thead>
+            <tr>
+                <th >ID</th>
+                <th th:text="#{tour.abfahrdatetime}">AbfahrtsZeit</th>
+                <th th:text="#{tour.preis}">Preis</th>
+                <th th:text="#{tour.plaetze}">Plätze</th>
+                <th th:text="#{tour.startort}">StartOrt</th>
+                <th th:text="#{tour.zielort}">ZielOrt</th>
+                <th th:text="#{tour.anbieter}">Anbieter</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="tour : ${tourliste}" th:object="${tour}">
+                <td th:text="*{id}"></td>
+                <td th:text="*{abfahrtsZeit}"></td>
+                <td th:text="*{preis}"></td>
+                <td th:text="*{plaetze}"></td>
+                <td><a th:href="|https://www.openstreetmap.org/#map=14/*{startOrt.geobreite}/*{startOrt.geolaenge}|" th:text="*{startOrt.getName()}" target="_blank"></a></td>
+                <td><a th:href="|https://www.openstreetmap.org/#map=14/*{zielOrt.geobreite}/*{zielOrt.geolaenge}|" th:text ="*{zielOrt.getName()}" target="_blank"></a></td>
+                <td th:text="*{anbieter.getName()}"></td>
+                <td>
+                    <form th:action="@{/admin/tour/__${tour.id}__}" method="get" style="display:inline;">
+                        <button th:text="#{tourliste.eintrag.bearbeiten}" class="button-bearbeiten" type="submit"></button>
+                    </form>
+                    <form th:action="@{/admin/tour/__${tour.id}__/del}" method="get" style="display:inline;">
+                        <button th:text="#{tourliste.eintrag.loeschen}" class="button-loeschen" type="submit"></button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form class="form-benutzer" th:action="@{/admin/tour/0}" method="get">
+        <button type="submit" th:text="#{tourliste.neu}">Neue Tour</button>
+    </form>
+    <div name="footer" class="footer" th:replace="~{fragments/kopffuss :: fuss}"></div>
+</body>
+</html>

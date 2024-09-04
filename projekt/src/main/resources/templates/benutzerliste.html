@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Benutzer</title>
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+    <link th:href="@{/style.css}" th:rel="stylesheet" />
+</head>
+<body>
+    <div name="header" class="header" th:replace="~{fragments/kopffuss :: kopf}"></div>
+    <div class="info" th:replace="~{fragments/info :: info}"></div>
+    <h3 th:text="#{benutzerliste.titel}"></h3>
+
+    <table class="tour-tabelle" th:if="${benutzerliste != null}">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th th:text="#{benutzer.name}">Name</th>
+                <th th:text="#{benutzer.email}">Email</th>
+                <th >Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="benutzer : ${benutzerliste}" th:object="${benutzer}">
+                <td th:text="*{id}"></td>
+                <td th:replace="~{fragments/benutzerliste-zeile :: feldausgeben(benutzerid=*{id},feldname=name,wert=*{name})}"></div>
+                <td th:replace="~{fragments/benutzerliste-zeile :: feldausgeben(benutzerid=*{id},feldname=email,wert=*{email})}"></div>
+                <td>
+                    <form th:action="@{/admin/benutzer/__${benutzer.id}__}" method="get" style="display:inline;">
+                        <button th:text="#{benutzerliste.eintrag.bearbeiten}" class="button-bearbeiten" type="submit"></button>
+                    </form>
+                    <form th:action="@{/admin/benutzer/__${benutzer.id}__/del}" method="get" style="display:inline;">
+                        <button th:text="#{benutzerliste.eintrag.loeschen}" class="button-loeschen" type="submit"></button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form class="form-benutzer" th:action="@{/admin/benutzer/0}" method="get">
+        <button type="submit" th:text="#{benutzerliste.neu}">Neuer Benutzer</button>
+    </form>
+    
+    <div name="header" class="header" th:replace="~{fragments/kopffuss :: fuss}"></div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <link th:href = "@{../static/style.css}" th:rel="stylesheet" />
+    </head>
+    <header th:fragment="kopf" class="header-container">
+        <div class="header-links">
+            <a th:text="#{kopf.benutzer}" th:href="@{/admin/benutzer}"></a>
+            <a sec:authorize="hasRole('CHEF')" th:text="#{kopf.orte}" th:href="@{/admin/ort}"></a>
+            <a th:text="#{kopf.touren}" th:href="@{/admin/tour}"></a>
+        </div>
+        <div class="language-links">
+            <a th:href="@{?sprache=de}">DE</a>
+            <a th:href="@{?sprache=en}">EN</a>
+            <a th:href="@{?sprache=nl}">NL</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </header>
+
+    <footer th:fragment="fuss">
+        <a sec:authentication="name"></a>
+        <a th:text ="#{fuss.impressum}">Impressum</a>
+        <a th:text = "#{fuss.kontakt}">Kontakt</a>
+    </footer>
+</html>

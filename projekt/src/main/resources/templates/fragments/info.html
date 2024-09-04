@@ -1,0 +1,6 @@
+<html>
+    <head>
+        <link th:href = "@{../static/style.css}" th:rel="stylesheet" />
+    </head>
+    <div th:fragment ="info"  th:if="${info != null}" class="info"><span th:text = "${info}">INFO</span></div>
+</html>

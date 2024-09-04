@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tour bearbeiten</title>
+    <link th:href = "@{/style.css}" th:rel="stylesheet" />
+</head>
+<div name="header" class="header" th:replace="~{fragments/kopffuss :: kopf}"></div>
+<body>
+    <div class="info" th:replace="~{fragments/info :: info}"></div>
+    <div name = "BenutzerForm">
+        <h3><span  th:if= "${id != 0}" th:text ="#{tourformular.titel(${id})}"></span></h3>
+        <h3><span  th:if= "${id == 0}" th:text ="#{tourformular.titel.neu}"></span></h3>
+        <form class="form-benutzer" th:object="${tourformular}" method="post">
+
+            <label for="name" th:text = "#{tour.anbieter}">Name</label><br>
+            <div  class="select-container">
+            <select th:field="*{anbieterId}" name = "name" >
+                <option th:value="0" th:text="---"></option>
+                <option th:each="b : ${benutzerList}" th:value="${b.getId()}" th:text="${b.getName()}">
+                </option>
+            </select>
+            </div>
+            <p class ="alert-text" th:if = "${#fields.hasErrors('anbieterId')}" th:errors="*{anbieterId}">error</p>
+            <br>
+            <label for="abfahrtsZeit" th:text = "#{tour.abfahrdatetime}"></label><br>
+            <input th:field="*{abfahrtsZeit}" type="datetime-local" th:errorclass="alert" name="abfahrtsZeit" th:placeholder="#{tour.abfahrdatetime}">
+            <p class ="alert-text" th:if = "${#fields.hasErrors('abfahrtsZeit')}" th:errors="*{abfahrtsZeit}">error</p>
+            <br>
+            <label for="preis" th:text = "#{tour.preis}">Name</label><br>
+            <input th:field="*{preis}" type="text" th:errorclass="alert" name="preis" th:placeholder="#{tour.preis}">
+            <p class ="alert-text" th:if = "${#fields.hasErrors('preis')}" th:errors="*{preis}">error</p>     
+            <br>
+            <label for="plaetze" th:text = "#{tour.plaetze}">Name</label><br>
+            <input th:field="*{plaetze}" type="text" th:errorclass="alert" name="plaetze" th:placeholder="#{tour.plaetze}">
+            <p class ="alert-text" th:if = "${#fields.hasErrors('plaetze')}" th:errors="*{plaetze}">error</p>
+            <div class = "flex-parent-ele">
+                <div class ="flex-child-ele">
+                    <label for="start" th:text = "#{tour.startort}">Name</label><br>
+                    <div  class="select-container">
+                    <select th:field="*{startOrtId}" name = "start">
+                        <option th:value="0" th:text="---"></option>
+                        <option th:each="o : ${ortList}" th:value="${o.getId()}" th:text="${o.getName()}">
+                        </option>
+                    </select>
+                    </div>
+                    <p class ="alert-text" th:if = "${#fields.hasErrors('startOrtId')}" th:errors="*{startOrtId}">error</p>  
+                </div>
+                <div class = "flex-child-ele">
+                    <label for="ziel" th:text = "#{tour.zielort}">Name</label><br>
+                    <div  class="select-container">
+                    <select th:field="*{zielOrtId}" name = "ziel">
+                        <option th:value="0" th:text="---"></option>
+                        <option th:each="o : ${ortList}" th:value="${o.getId()}" th:text="${o.getName()}">
+                        </option>
+                    </select>
+                    </div>
+                    <p class ="alert-text" th:if = "${#fields.hasErrors('zielOrtId')}" th:errors="*{zielOrtId}">error</p>  
+                </div>
+            </div>
+            <label for="info" th:text = "#{tour.fahrgastinfos}">Name</label><br>
+            <input th:field="*{info}" type="text" th:errorclass="alert" name="info" th:placeholder="#{tour.fahrgastinfos}">
+            <p class ="alert-text" th:if = "${#fields.hasErrors('info')}" th:errors="*{info}">error</p>
+            <button type ="submit">OK</butto>
+            
+        </form>
+    </div>
+</body>
+<div name="header" class="header" th:replace="~{fragments/kopffuss :: fuss}"></div>
+</html>

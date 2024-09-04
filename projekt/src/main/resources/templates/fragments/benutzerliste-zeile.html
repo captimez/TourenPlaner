@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <td th:fragment="feldausgeben(benutzerid,feldname,wert)"  >
+            <span  th:text="${wert}" th:hx-get="@{/admin/benutzer/{benutzerid}/hx/feld/{feldname}(benutzerid=${benutzerid}, feldname=${feldname})}" hx-target="closest td" hx-swap="outerHTML" th:trigger="click"></span>
+        </td>
+        <td th:fragment="feldbearbeiten(benutzerid,feldname,wert)">
+            <form method="put" th:hx-put="@{/admin/benutzer/{benutzerid}/hx/feld/{feldname}(benutzerid=${benutzerid}, feldname=${feldname})}" hx-swap="outerHTML" hx-target="closest td">
+                <input class="table-input" name="wert" th:value="${wert}" th:classappend="${hasError} ? 'alert' : ''" type="text">
+                <button class="table-button" type ="submit">OK</button>
+            </form>
+        </td>
+    </body>
+</html>

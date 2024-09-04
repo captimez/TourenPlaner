@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Benutzer bearbeiten</title>
+    <link th:href="@{/style.css}" rel="stylesheet" />
+</head>
+<div name="header" class="header" th:replace="~{fragments/kopffuss :: kopf}"></div>
+<body>
+    <div class="info" th:replace="~{fragments/info :: info}"></div>
+    <div name = "BenutzerForm">
+        <h3><span  th:if= "${id != 0}" th:text ="#{benutzerprofil.titel(${id})}"></span></h3>
+        <h3><span  th:if= "${id == 0}" th:text ="#{benutzerprofil.titel.neu}"></span></h3>
+        <form class="form-benutzer" th:object="${formular}" method="post">
+            <div>
+                <label for="name" th:text = "#{benutzer.name}">Name</label><br>
+                <input th:field="*{name}" type="text" th:errorclass="alert" name="name" th:placeholder="#{benutzer.name}">
+                <p class ="alert-text" th:if = "${#fields.hasErrors('name')}" th:errors="*{name}">error</p>
+            </div>
+            <div>
+                <label for="geburtstag" th:text = "#{benutzer.geburtstag}">Geburtstag</label><br>
+                <input th:field="*{geburtstag}" type="date" th:errorclass="alert" name="geburtstag" th:placeholder="#{benutzer.geburtstag}">
+                <p class ="alert-text" th:if = "${#fields.hasErrors('geburtstag')}" th:errors="*{geburtstag}">error</p>
+            </div>
+            <div>
+                <label for="email" th:text = "#{benutzer.email}">Email</label><br>
+                <input th:field = "*{email}" type="text" th:errorclass="alert" name="email" th:placeholder="#{benutzer.email}">
+                <p class ="alert-text" th:if = "${#fields.hasErrors('email')}" th:errors="*{email}">error</p>
+            </div>
+            <div>
+                <label for="password" th:text = "#{benutzer.passwort}">Password</label><br>
+                <input th:field = "*{password}" type="password" th:errorclass="alert" name="password" th:placeholder="#{benutzer.passwort}" >
+                <p class ="alert-text" th:if = "${#fields.hasErrors('password')}" th:errors="*{password}">error</p>
+            </div>
+            <div name="magich_magichnicht" class="flex-parent-ele">
+                <div name="magich" class="flex-child-ele">
+                    <h3 th:text="#{benutzer.magich}">Mag ich</h3>
+                    (max. <span th:text="${maxWunsch}"></span>)
+                    <div th:if="${formular.getMagList != null and formular.getMagList.size() &lt; maxWunsch or #fields.hasAnyErrors()}">
+                        <input type="text" name="magich" th:placeholder="#{benutzer.magich}">
+                    </div>
+                    <span th:each="item : ${#lists.sort(formular.getMagList)}">
+                        <span th:text="${item}"></span><br>
+                    </span>
+                </div>
+                <div name="magichnicht" class="flex-child-ele">
+                    <h3 th:text="#{benutzer.magichnicht}">Mag ich nicht</h3>
+                    (max. <span th:text="${maxWunsch}"></span>)
+                    <div th:if="${formular.getMagnichtList != null and formular.getMagnichtList.size() &lt; maxWunsch or #fields.hasAnyErrors()}">
+                        <input type="text" name="magichnicht" th:placeholder="#{benutzer.magichnicht}">
+                    </div>
+                    <span th:each="item : ${#lists.sort(formular.getMagnichtList)}">
+                        <span th:text="${item}"></span><br>
+                    </span>
+                </div>
+            </div>
+            
+            <button type="submit">OK</button>
+        </form>
+    </div>
+</body>
+<div name="header" class="header" th:replace="~{fragments/kopffuss :: fuss}"></div>
+</html>
